@@ -10,5 +10,6 @@ class SearchVideoTest(): TestBase() {
     @Test
     fun searchVideo(){
         val homPage = HomePage(driver)
+        homPage.openURL()
     }
 }
