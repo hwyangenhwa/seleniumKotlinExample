@@ -1,4 +1,4 @@
-package com.example
+package tests
 
 import Util.UtilResources
 import org.testng.Assert
@@ -9,6 +9,6 @@ class SearchVideoTest(): TestBase() {
 
     @Test
     fun searchVideo(){
-        val homPage = HomePage(driver!!)
+        val homPage = HomePage(driver)
     }
 }

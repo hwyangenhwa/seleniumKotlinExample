@@ -1,5 +1,6 @@
-package com.example
+package tests
 
+import Util.DriverFactory
 import Util.UtilResources
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
@@ -14,6 +15,9 @@ abstract class TestBase {
 
     @BeforeTest
     fun setup(){
+        driver = DriverFactory.browser
+
+        /*
         System.setProperty(
             UtilResources.getProperties("nameDriver"),
             UtilResources.getProperties("pathDriver") + UtilResources.getProperties("exeDriver"))
@@ -22,10 +26,11 @@ abstract class TestBase {
         driver.manage()?.timeouts()?.implicitlyWait(10, TimeUnit.SECONDS)
         driver.manage()?.window()?.maximize()
         driver.get(UtilResources.getProperties("pageURL")).toString()
+        */
     }
 
     @AfterTest
     fun driverClose(){
-        driver.close()
+        driver.quit()
     }
 }
