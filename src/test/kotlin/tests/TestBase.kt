@@ -1,6 +1,7 @@
 package tests
 
 import Util.DriverFactory
+import Util.NotifyService
 import java.io.File
 import org.apache.commons.io.FileUtils
 
@@ -34,21 +35,26 @@ abstract class TestBase {
     }
 
     @AfterMethod(alwaysRun = true)
-    fun catchException(result: ITestResult){
+    fun catchException(result: ITestResult) {
         if (ITestResult.FAILURE == result.status) {
-            try {
 
+            // Error Msg
+            val errorInf = result.method
+            //  Error Tyoe split (ElementException, NosuchElementException ...)
+            val errorType = result.throwable.cause.toString().split(":")[0].split(".")[3]
+
+            NotifyService.errorNoity(errorType, errorInf.toString())
+
+            //  Take ScreenShot
+            try {
                 //TakesScreenshot screenshot=(TakesScreenshot)driver;
                 val screenshot = driver as TakesScreenshot
                 //File src=screenshot.getScreenshotAs(OutputType.FILE);
                 val src: File = screenshot.getScreenshotAs(OutputType.FILE)
                 FileUtils.copyFile(src, File("src/test/kotlin/screenshots/" + result.name + ".png"))
-                //FileUtils.copyFile(src, File("src/test/kotlin/screenshots/" + result.instanceName + ".png"))
-                //FileUtils.copyFile(src, File("src/test/kotlin/screenshots/" + result.testClass + ".png"))
-                println(" Screenshot is success")
 
-            } catch (e: Exception) {
-                println("Error Exception :$e")
+            } catch (errorType: Exception) {
+                println("Error Exception :$errorType.")
             }
         }
     }
@@ -58,3 +64,4 @@ abstract class TestBase {
         driver.quit()
     }
 }
+
